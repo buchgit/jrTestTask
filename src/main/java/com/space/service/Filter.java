@@ -8,11 +8,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Filter {
     public Specification<Ship> selectByName (final String name) {
+        new Validation().checkName(name);
         return new Specification<Ship>() {
             @Override
             public Predicate toPredicate(Root<Ship> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -31,6 +31,7 @@ public class Filter {
         };
     }
     public Specification<Ship> selectByPlanet(final String planet){
+        new Validation().checkPlanet(planet);
         return new Specification<Ship>() {
             @Override
             public Predicate toPredicate(Root<Ship> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -49,6 +50,7 @@ public class Filter {
         };
     }
     public Specification<Ship> selectByProdDate(final Long min,final Long max){
+        new Validation().checkProdDate(min,max);
         return new Specification<Ship>() {
             @Override
             public Predicate toPredicate(Root<Ship> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -73,6 +75,7 @@ public class Filter {
         };
     }
     public Specification<Ship> selectBySpeed (final Double min,final Double max){
+        new Validation().checkSpeed(min,max);
         return new Specification<Ship>() {
             @Override
             public Predicate toPredicate(Root<Ship> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -88,6 +91,7 @@ public class Filter {
         };
     }
     public Specification<Ship> selectByCrewSize(final Integer min, final Integer max){
+        new Validation().checkCrewSize(min,max);
         return new Specification<Ship>() {
             @Override
             public Predicate toPredicate(Root<Ship> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

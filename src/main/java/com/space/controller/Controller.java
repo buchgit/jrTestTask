@@ -1,5 +1,6 @@
 package com.space.controller;
 
+import com.space.exception.BadRequestException;
 import com.space.model.Ship;
 import com.space.model.ShipType;
 import com.space.service.Filter;
@@ -23,6 +24,17 @@ public class Controller {
     @PostMapping("/ships")                                                                          //2
     @ResponseStatus(HttpStatus.OK)
     public Ship createShip(@RequestBody Ship ship){
+        if (    ship.getName()==null
+                ||ship.getPlanet()==null
+                ||ship.getSpeed()==null
+                ||ship.getCrewSize()==null
+                ||ship.getProdDate()==null
+                )throw new BadRequestException("not valid parameters");
+        new Validation().checkName(ship.getName());
+        new Validation().checkPlanet(ship.getPlanet());
+        new Validation().checkSpeed(ship.getSpeed());
+        new Validation().checkCrewSize(ship.getCrewSize());
+        new Validation().checkProdDate(ship.getProdDate());
         return shipService.create(ship);
     }
 
@@ -69,11 +81,11 @@ public class Controller {
         Pageable pageable = PageRequest.of(pageNumber,pageSize, Sort.by(order.getFieldName()));
         Filter filter = new Filter();
 
-        new Validation().checkName(name);
-        new Validation().checkPlanet(planet);
-        new Validation().checkProdDate(after,before);
-        new Validation().checkSpeed(minSpeed,maxSpeed);
-        new Validation().checkCrewSize(minCrewSize,maxCrewSize);
+//        new Validation().checkName(name);
+//        new Validation().checkPlanet(planet);
+//        new Validation().checkProdDate(after,before);
+//        new Validation().checkSpeed(minSpeed,maxSpeed);
+//        new Validation().checkCrewSize(minCrewSize,maxCrewSize);
 
         return shipService.getFilteredList(
              Specification.where(
